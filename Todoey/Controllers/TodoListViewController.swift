@@ -15,12 +15,7 @@ class TodoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-        do {
-            itemArray = try context.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
+        loadItems()
     }
     
     // MARK: - Table Datasource Methods
@@ -44,6 +39,8 @@ class TodoListViewController: UITableViewController {
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
+
+        saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -59,13 +56,7 @@ class TodoListViewController: UITableViewController {
             
             self.itemArray.append(newItem)
             
-            do {
-                try self.context.save()
-            } catch {
-                print("Error saving context \(error)")
-            }
-            
-            self.tableView.reloadData()
+            self.saveItems()
         }
         
         alert.addAction(action)
@@ -77,6 +68,27 @@ class TodoListViewController: UITableViewController {
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Model Manipulation Methods
+    
+    func saveItems() {
+        do {
+            try self.context.save()
+        } catch {
+            print("Error saving context \(error)")
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    func loadItems() {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
     }
 }
 
