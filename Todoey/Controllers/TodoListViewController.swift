@@ -6,19 +6,15 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
     var itemArray: [Item] = []
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var newItem = Item()
-        newItem.title = "Buy Milk"
-        itemArray.append(newItem)
-        var newItem2 = Item()
-        newItem2.title = "Find Socks"
-        itemArray.append(newItem2)
     }
     
     // MARK: - Table Datasource Methods
@@ -51,10 +47,17 @@ class TodoListViewController: UITableViewController {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
-            var newItem = Item()
+            let newItem = Item(context: self.context)
             newItem.title = textField.text!
+            newItem.done = false
             
             self.itemArray.append(newItem)
+            
+            do {
+                try self.context.save()
+            } catch {
+                print("Error saving context \(error)")
+            }
             
             self.tableView.reloadData()
         }
