@@ -91,7 +91,13 @@
                             <outlet property="delegate" destination="Fgl-LY-l1S" id="hau-iw-oad"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="xgp-mX-JVW"/>
+                    <navigationItem key="navigationItem" id="xgp-mX-JVW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Z0N-wg-0IP">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="Fgl-LY-l1S" id="dbr-QP-gzm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="U7F-eh-qbe" kind="show" identifier="goToItems" id="ArM-6q-yC1"/>
                     </connections>

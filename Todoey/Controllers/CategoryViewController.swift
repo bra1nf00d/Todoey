@@ -30,4 +30,7 @@ class CategoryViewController: UITableViewController {
         
         return cell
     }
+    
+    // MARK: - Add New Categories
+    
 }
