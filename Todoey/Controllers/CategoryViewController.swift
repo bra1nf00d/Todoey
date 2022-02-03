@@ -32,5 +32,15 @@ class CategoryViewController: UITableViewController {
     }
     
     // MARK: - Add New Categories
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
     
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            
+        }
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
 }

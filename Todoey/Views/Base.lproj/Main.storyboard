@@ -94,7 +94,7 @@
                     <navigationItem key="navigationItem" id="xgp-mX-JVW">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Z0N-wg-0IP">
                             <connections>
-                                <action selector="addButtonPressed:" destination="Fgl-LY-l1S" id="dbr-QP-gzm"/>
+                                <action selector="addButtonPressed:" destination="Fgl-LY-l1S" id="zXB-I5-iAZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
