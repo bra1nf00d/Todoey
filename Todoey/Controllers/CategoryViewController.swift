@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CategoryViewController: UITableViewController {
 
@@ -16,6 +17,7 @@ class CategoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadCategories()
     }
     
     // MARK: - Table Datasource Methods
@@ -36,7 +38,12 @@ class CategoryViewController: UITableViewController {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            let newCategory = Category(context: self.context)
+            newCategory.name = textField.text!
             
+            self.categories.append(newCategory)
+            
+            self.saveCategories()
         }
         
         alert.addAction(action)
@@ -48,5 +55,28 @@ class CategoryViewController: UITableViewController {
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Data Manipulation Methods
+    func saveCategories() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving category \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func loadCategories() {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        
+        do {
+            categories = try context.fetch(request)
+        } catch {
+            print("Error fetching category \(error)")
+        }
+        
+        tableView.reloadData()
     }
 }
