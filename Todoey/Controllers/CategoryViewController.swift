@@ -33,13 +33,19 @@ class CategoryViewController: UITableViewController {
     
     // MARK: - Add New Categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
-    
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             
         }
         
         alert.addAction(action)
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new category"
+            
+            textField = alertTextField
+        }
         
         present(alert, animated: true, completion: nil)
     }
