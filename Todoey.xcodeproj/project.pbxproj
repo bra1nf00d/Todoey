@@ -16,6 +16,7 @@
 		215F4AF427AAF1560084C68E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 215F4AF327AAF1560084C68E /* README.md */; };
 		215F4AF627AAF1710084C68E /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 215F4AF527AAF1710084C68E /* .gitignore */; };
 		21E8D36027AB0C4B008CD700 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 21E8D35E27AB0C4B008CD700 /* DataModel.xcdatamodeld */; };
+		21E8D36227AC3108008CD700 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E8D36127AC3108008CD700 /* CategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		215F4AF327AAF1560084C68E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		215F4AF527AAF1710084C68E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		21E8D35F27AB0C4B008CD700 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		21E8D36127AC3108008CD700 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				215F4AE027AAF1200084C68E /* TodoListViewController.swift */,
+				21E8D36127AC3108008CD700 /* CategoryViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21E8D36227AC3108008CD700 /* CategoryViewController.swift in Sources */,
 				215F4AE127AAF1200084C68E /* TodoListViewController.swift in Sources */,
 				21E8D36027AB0C4B008CD700 /* DataModel.xcdatamodeld in Sources */,
 				215F4ADD27AAF1200084C68E /* AppDelegate.swift in Sources */,
