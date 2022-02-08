@@ -105,6 +105,15 @@ class TodoListViewController: SwipeTableViewController {
         
         self.tableView.reloadData()
     }
+    
+    // MARK: - Delete Data from Swipe
+    override func updateModel(at indexPath: IndexPath) {
+        if let itemForDeletion = itemArray[indexPath.row] as? NSManagedObject {
+            context.delete(itemForDeletion)
+            saveItems()
+            loadItems()
+        }
+    }
 }
 
 // MARK: - Search Bar Methods
