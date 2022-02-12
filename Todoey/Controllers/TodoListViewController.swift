@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
     var itemArray: [Item] = []
@@ -36,6 +37,13 @@ class TodoListViewController: SwipeTableViewController {
         cell.textLabel?.text = item.title
         
         cell.accessoryType = item.done ? .checkmark : .none
+        
+        if let categoryColour = selectedCategory?.colour {
+            if let colour = UIColor(hexString: categoryColour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(itemArray.count)) {
+                cell.backgroundColor = colour
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+            }
+        }
         
         return cell
     }
