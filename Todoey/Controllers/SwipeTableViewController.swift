@@ -14,11 +14,13 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         super.viewDidLoad()
         
         tableView.rowHeight = 80.0
+        tableView.separatorStyle = .none
     }
     
     // MARK: - Table Datasource Methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SwipeTableViewCell
+        cell.selectionStyle = .none
         
         cell.delegate = self
         
