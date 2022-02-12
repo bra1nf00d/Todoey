@@ -8,14 +8,9 @@
 import UIKit
 import CoreData
 
-class TodoListViewController: SwipeTableViewController {
+class TodoListViewController: UITableViewController {
     var itemArray: [Item] = []
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var selectedCategory: Category? {
-        didSet {
-            loadItems()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +25,7 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
         let item = itemArray[indexPath.row]
         
         cell.textLabel?.text = item.title
@@ -57,7 +52,6 @@ class TodoListViewController: SwipeTableViewController {
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
-            newItem.parentCategory = self.selectedCategory
             
             self.itemArray.append(newItem)
             
@@ -87,16 +81,7 @@ class TodoListViewController: SwipeTableViewController {
         self.tableView.reloadData()
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
-        
-        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
-        
-        if let addtionalPredicate = predicate {
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, addtionalPredicate])
-        } else {
-            request.predicate = categoryPredicate
-        }
-        
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         do {
             itemArray = try context.fetch(request)
         } catch {
@@ -105,15 +90,6 @@ class TodoListViewController: SwipeTableViewController {
         
         self.tableView.reloadData()
     }
-    
-    // MARK: - Delete Data from Swipe
-    override func updateModel(at indexPath: IndexPath) {
-        if let itemForDeletion = itemArray[indexPath.row] as? NSManagedObject {
-            context.delete(itemForDeletion)
-            saveItems()
-            loadItems()
-        }
-    }
 }
 
 // MARK: - Search Bar Methods
@@ -121,11 +97,11 @@ extension TodoListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
-        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         
         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        loadItems(with: request, predicate: predicate)
+        loadItems(with: request)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

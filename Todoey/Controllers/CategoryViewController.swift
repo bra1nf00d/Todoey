@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
 
     var categories: [Category] = []
     
@@ -26,7 +26,7 @@ class CategoryViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         cell.textLabel?.text = categories[indexPath.row].name
         
@@ -91,5 +91,14 @@ class CategoryViewController: UITableViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    // MARK: - Delete Data from Swipe
+    override func updateModel(at indexPath: IndexPath) {
+        if let categoryForDeletion = categories[indexPath.row] as? NSManagedObject {
+            context.delete(categoryForDeletion)
+            saveCategories()
+            loadCategories()
+        }
     }
 }
