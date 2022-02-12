@@ -7,8 +7,10 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
+    @IBOutlet weak var searchBar: UISearchBar!
     var itemArray: [Item] = []
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var selectedCategory: Category? {
@@ -21,6 +23,19 @@ class TodoListViewController: SwipeTableViewController {
         super.viewDidLoad()
         
         loadItems()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let categoryColour = selectedCategory?.colour {
+            title = selectedCategory!.name
+            
+            if let navbarColour = UIColor(hexString: categoryColour) {
+                searchBar.barTintColor = navbarColour
+                navigationController?.navigationBar.backgroundColor = navbarColour
+                navigationController?.navigationBar.tintColor = ContrastColorOf(navbarColour, returnFlat: true)
+                navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(navbarColour, returnFlat: true)]
+            }
+        }
     }
     
     // MARK: - Table Datasource Methods
@@ -36,6 +51,13 @@ class TodoListViewController: SwipeTableViewController {
         cell.textLabel?.text = item.title
         
         cell.accessoryType = item.done ? .checkmark : .none
+        
+        if let categoryColour = selectedCategory?.colour {
+            if let colour = UIColor(hexString: categoryColour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(itemArray.count)) {
+                cell.backgroundColor = colour
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+            }
+        }
         
         return cell
     }

@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class CategoryViewController: SwipeTableViewController {
 
@@ -20,6 +21,12 @@ class CategoryViewController: SwipeTableViewController {
         loadCategories()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.backgroundColor = UIColor.white
+        
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+    }
+    
     // MARK: - Table Datasource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
@@ -27,8 +34,14 @@ class CategoryViewController: SwipeTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let category = categories[indexPath.row]
         
-        cell.textLabel?.text = categories[indexPath.row].name
+        cell.textLabel?.text = category.name
+        
+        if let categoryColour = UIColor(hexString: category.colour ?? "FFFFFF") {
+            cell.backgroundColor = categoryColour
+            cell.textLabel?.textColor = ContrastColorOf(categoryColour, returnFlat: true)
+        }
         
         return cell
     }
@@ -53,6 +66,7 @@ class CategoryViewController: SwipeTableViewController {
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             let newCategory = Category(context: self.context)
             newCategory.name = textField.text!
+            newCategory.colour = UIColor.randomFlat().hexValue()
             
             self.categories.append(newCategory)
             
