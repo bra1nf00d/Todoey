@@ -63,7 +63,9 @@ class CategoryViewController: SwipeTableViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+        
+        // Create Add button with action handler
+        alert.addAction(UIAlertAction(title: "Add", style: .default) { (action) in
             let newCategory = Category(context: self.context)
             newCategory.name = textField.text!
             newCategory.colour = UIColor.randomFlat().hexValue()
@@ -71,9 +73,10 @@ class CategoryViewController: SwipeTableViewController {
             self.categories.append(newCategory)
             
             self.saveCategories()
-        }
+        })
         
-        alert.addAction(action)
+        // Create Cancel button with action handler
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new category"
