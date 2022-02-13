@@ -12,12 +12,8 @@ import ChameleonFramework
 class TodoListViewController: SwipeTableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     var itemArray: [Item] = []
+    var selectedCategory: Category?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var selectedCategory: Category? {
-        didSet {
-            loadItems()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +63,6 @@ class TodoListViewController: SwipeTableViewController {
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
-        
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Add New Items
