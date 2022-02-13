@@ -12,12 +12,8 @@ import ChameleonFramework
 class TodoListViewController: SwipeTableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     var itemArray: [Item] = []
+    var selectedCategory: Category?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var selectedCategory: Category? {
-        didSet {
-            loadItems()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,19 +59,21 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     // MARK: - Table Delegate Methods
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
-        
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Add New Items
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+        
+        // Create Add button with action handler
+        alert.addAction(UIAlertAction(title: "Add", style: .default) { (action) in
             let newItem = Item(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
@@ -84,9 +82,10 @@ class TodoListViewController: SwipeTableViewController {
             self.itemArray.append(newItem)
             
             self.saveItems()
-        }
+        })
         
-        alert.addAction(action)
+        // Create Cancel button with action handler
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
@@ -110,7 +109,6 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
-        
         let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
         
         if let addtionalPredicate = predicate {
@@ -129,6 +127,7 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     // MARK: - Delete Data from Swipe
+    
     override func updateModel(at indexPath: IndexPath) {
         if let itemForDeletion = itemArray[indexPath.row] as? NSManagedObject {
             context.delete(itemForDeletion)
@@ -139,8 +138,8 @@ class TodoListViewController: SwipeTableViewController {
 }
 
 // MARK: - Search Bar Methods
+
 extension TodoListViewController: UISearchBarDelegate {
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
