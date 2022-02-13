@@ -18,6 +18,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     }
     
     // MARK: - Table Datasource Methods
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SwipeTableViewCell
         cell.selectionStyle = .none
@@ -33,13 +34,13 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             self.updateModel(at: indexPath)
         }
-
         deleteAction.image = UIImage(named: "delete-icon")
 
         return [deleteAction]
     }
     
     // MARK: - Delete Data from Swipe
+    
     func updateModel(at indexPath: IndexPath) {
         // Update our data model
     }

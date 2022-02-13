@@ -10,9 +10,7 @@ import CoreData
 import ChameleonFramework
 
 class CategoryViewController: SwipeTableViewController {
-
     var categories: [Category] = []
-    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
@@ -23,11 +21,11 @@ class CategoryViewController: SwipeTableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.backgroundColor = UIColor.white
-        
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
     }
     
     // MARK: - Table Datasource Methods
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
@@ -47,6 +45,7 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     // MARK: - Table Delegate Methods
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToItems", sender: self)
     }
@@ -60,6 +59,7 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     // MARK: - Add New Categories
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -85,6 +85,7 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     // MARK: - Data Manipulation Methods
+    
     func saveCategories() {
         do {
             try context.save()
@@ -108,6 +109,7 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     // MARK: - Delete Data from Swipe
+    
     override func updateModel(at indexPath: IndexPath) {
         if let categoryForDeletion = categories[indexPath.row] as? NSManagedObject {
             context.delete(categoryForDeletion)

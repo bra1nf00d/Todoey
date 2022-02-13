@@ -59,6 +59,7 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     // MARK: - Table Delegate Methods
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
@@ -66,6 +67,7 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     // MARK: - Add New Items
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
@@ -104,7 +106,6 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
-        
         let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
         
         if let addtionalPredicate = predicate {
@@ -123,6 +124,7 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     // MARK: - Delete Data from Swipe
+    
     override func updateModel(at indexPath: IndexPath) {
         if let itemForDeletion = itemArray[indexPath.row] as? NSManagedObject {
             context.delete(itemForDeletion)
@@ -133,8 +135,8 @@ class TodoListViewController: SwipeTableViewController {
 }
 
 // MARK: - Search Bar Methods
+
 extension TodoListViewController: UISearchBarDelegate {
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
